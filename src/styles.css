@@ -1,3 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@layer base {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  html[data-theme='light'] {
+    --app-bg: oklch(92.9% 0.013 255.508);
+    --app-surface: rgba(255, 255, 255, 0.78);
+    --app-footer: oklch(71.4% 0.014 41.2);
+    --app-text: oklch(28.2% 0.091 267.935);
+    --app-muted: oklch(80.9% 0.105 251.813);
+    --app-border: rgba(23, 32, 51, 0.12);
+    --app-toggle-bg: rgba(23, 32, 51, 0.08);
+    --app-toggle-color: oklch(12.9% 0.042 264.695);
+    --app-brand-badge: oklch(73.7% 0.021 106.9);
+  }
+
+  html[data-theme='dark'] {
+    --app-bg: oklch(39.4% 0.023 107.4);
+    --app-surface: rgba(17, 24, 39, 0.62);
+    --app-footer: oklch(37.2% 0.044 257.287);
+    --app-text: oklch(96.8% 0.007 247.896);
+    --app-muted: oklch(70.4% 0.04 256.788);
+    --app-border: rgba(255, 255, 255, 0.1);
+    --app-toggle-bg: rgba(30, 58, 138, 0.2);
+    --app-toggle-color: oklch(92% 0.004 286.32);
+    --app-brand-badge: oklch(28.2% 0.091 267.935);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-base antialiased;
+    background: var(--app-bg);
+    color: var(--app-text);
+    margin: 0;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease;
+  }
+}
+
+@layer components {
+  .app-shell {
+    background: var(--app-bg);
+    color: var(--app-text);
+  }
+
+  .app-footer {
+    background: var(--app-footer);
+    color: var(--app-text);
+  }
+
+  .glass,
+  .mat-toolbar.glass {
+    background-color: var(--app-surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--app-border);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(180deg, rgba(16, 16, 34, 0) 0%, rgba(16, 16, 34, 0.9) 100%);
+  }
+
+  .theme-toggle {
+    background: var(--app-toggle-bg);
+    color: var(--app-toggle-color);
+    border: 1px solid var(--app-border);
+  }
+
+  .brand-badge {
+    background: var(--app-brand-badge);
+    transition: background-color 200ms ease;
+  }
+}

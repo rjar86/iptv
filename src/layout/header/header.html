@@ -1,0 +1,48 @@
+<header class="sticky top-0 z-50 glass border-b border-white/10">
+  <mat-toolbar
+    class="mx-auto flex h-auto max-w-auto items-center justify-between bg-transparent px-6 py-4"
+  >
+    <div class="flex items-center gap-10">
+      <div class="flex items-center gap-3">
+        <div
+          class="brand-badge flex h-10 w-10 items-center justify-center rounded-lg shadow-olive-950/10"
+        >
+          <mat-icon class="text-white" [routerLink]="'home'">settings_input_antenna</mat-icon>
+        </div>
+        <span class="text-xl font-black tracking-tighter uppercase italic"
+          >TV<span class="text-amber-500 ml-1">IP</span></span
+        >
+      </div>
+      <nav class="hidden md:flex items-center gap-8">
+        <a
+          class="text-sm font-semibold hover:text-olive-300 transition-colors"
+          [routerLink]="'guia'"
+          >Guia de canales</a
+        >
+        <a
+          class="text-sm font-semibold hover:text-olive-300 transition-colors"
+          [routerLink]="'acerca'"
+          >Acerca de</a
+        >
+      </nav>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="relative hidden lg:block"></div>
+      <div class="flex items-center gap-4">
+        <button
+          type="button"
+          mat-icon-button
+          color="tertiary"
+          class="theme-toggle"
+          (click)="toggleTheme()"
+          [attr.aria-label]="
+            themeService.isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
+          "
+          [attr.title]="themeService.isDark() ? 'Modo claro' : 'Modo oscuro'"
+        >
+          <mat-icon>{{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar>
+</header>
