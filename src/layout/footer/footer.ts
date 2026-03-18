@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './footer.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -21,6 +21,7 @@ type ChannelCategory = {
 
 @Component({
   selector: 'app-guide',
+  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './guide.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -6,6 +6,7 @@ import { Header } from './header/header';
 
 @Component({
   selector: 'app-layout',
+  standalone: true,
   imports: [RouterOutlet, CommonModule, Footer, Header],
   templateUrl: './layout.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

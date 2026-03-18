@@ -27,6 +27,7 @@ type ChannelsState = {
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './home.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
