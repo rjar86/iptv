@@ -22,7 +22,7 @@ y con personalizacion de modo claro/ oscuro
 
 ## Demo
 
-https://iptvrjar.netlify.app/home
+https://iptvrjar.netlify.app
 
 ## Instalación y uso local
 
