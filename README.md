@@ -1,59 +1,99 @@
 # Iptv
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+Esta es una aplicacion que simula un portal para visualizacion de canales gratuitos de IpTv, desarrollada en angular
+y con personalizacion de modo claro/ oscuro
 
-## Development server
+## Características principales
 
-To start a local development server, run:
+- Canal filtrado de "anime" al ingresar.
+- Guia de canales del filtro en el panel derecho.
+- Pagina de guia de canales completa
+- Modo claro / oscuro persistente
+- Diseño responsive (mobile-first)
 
-```bash
-ng serve
-```
+## Tecnologías utilizadas
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 21 (standalone components)
+- TypeScript
+- Tailwind CSS v4
+- GitHub de catalogo de iptv
+- Angular Material v21
+- RxJS
 
-## Code scaffolding
+## Demo
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+https://iptv_rjar.netlify.app/
 
-```bash
-ng generate component component-name
-```
+## Instalación y uso local
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Clonar el repositorio
 
-```bash
-ng generate --help
-```
+- git clone https://github.com/rjar86/iptv
+- cd iptv
 
-## Building
+### Instalar dependencias
 
-To build the project run:
+- npm install
 
-```bash
-ng build
-```
+### Ejecutar en desarrollo
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- ng serve
 
-## Running unit tests
+### Abrir en el navegador:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- http://localhost:4200
 
-```bash
-ng test
-```
+## Estructura del proyecto (resumen)
 
-## Running end-to-end tests
+-
+- │
+- ├─ src/
+- │ ├─ app/
+- │ │ ├─ core/
+- │ │ │ ├─ interfaces/ # Modelos de listado de canales
+- │ │ │ ├─ service/ # Servicios base / API
+- │ │ │
+- │ │ ├─ environments/
+- │ │ │ ├─ environment.development # API de desarrollo
+- │ │ │ ├─ envirionment # API de produccion
+- │ │ ├─ layout/
+- │ │ │ ├─ header/ # header principal
+- │ │ │ ├─ footer/ # Footer
+- │ │ │ ├─ layout.html # Layout base
+- │ │ │ └─ layout.ts
+- │ │ │
+- │ │ ├─ pages/
+- │ │ │ ├─ about/ # pagina de informacion
+- │ │ │ ├─ error-page/ # pagina de error
+- │ │ │ ├─ guide/ # guia de canales
+- │ │ │ └─ home/ # pagina principal
+- │ │ │
+- │ │ └─ index.html
+- │ │
+- │ ├─ main.ts
+- │ └─ styles.css # Tailwind CSS v4 + tokens de tema
+- │
 
-For end-to-end (e2e) testing, run:
+## API utilizada
 
-```bash
-ng e2e
-```
+Catalogo IpTV
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- https://iptv-org.github.io/iptv/index.m3u
 
-## Additional Resources
+## Estado del proyecto
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Funcional
+- En mejora continua
+- Pensado como demo profesional / portfolio
+
+## Licencia
+
+Este proyecto es solo con fines educativos y demostrativos.
+
+## Autor
+
+- Ricardo Aguilar
+- Fullstack Developer
+- Portfolio: https://rjarportafolio.netlify.app/
+- LinkedIn: https://www.linkedin.com/in/ingrjar86/
+- GitHub: https://github.com/rjar86
