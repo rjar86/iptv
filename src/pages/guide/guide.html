@@ -1,1 +1,104 @@
-<p>guide works!</p>,
+<section class="space-y-8">
+  <div class="rounded-3xl border border-slate-800/60 bg-slate-900/50 p-6 @[640px]:p-8">
+    <div class="space-y-3">
+      <p class="text-sm font-bold tracking-[0.25em] text-primary uppercase">Guia de canales</p>
+      <h1 class="text-3xl font-black tracking-tight text-white @[640px]:text-4xl">
+        Canales organizados por categoria
+      </h1>
+      <p class="max-w-3xl text-sm leading-6 text-slate-300 @[640px]:text-base">
+        Selecciona cualquier canal y lo abrimos en el reproductor del home. La lista lateral del
+        home sigue mostrando el catalogo de anime.
+      </p>
+    </div>
+  </div>
+
+  @if (guideState().loading) {
+    <div class="glass flex min-h-64 flex-col items-center justify-center gap-4 rounded-3xl p-8 text-center">
+      <mat-icon class="h-14! w-14! text-5xl! text-white/80">progress_activity</mat-icon>
+      <p class="text-xl font-bold text-white">Cargando guia de canales...</p>
+    </div>
+  } @else if (guideState().error) {
+    <div class="glass flex min-h-64 flex-col items-center justify-center gap-4 rounded-3xl p-8 text-center">
+      <mat-icon class="h-14! w-14! text-5xl! text-red-300">error</mat-icon>
+      <p class="text-xl font-bold text-white">{{ guideState().error }}</p>
+    </div>
+  } @else if (categories().length) {
+    <div class="space-y-8">
+      @for (category of categories(); track trackByCategory($index, category)) {
+        @defer (on viewport) {
+          <section class="space-y-4 rounded-3xl border border-slate-800/50 bg-slate-950/35 p-5 @[640px]:p-6">
+            <div class="flex flex-col gap-2 @[640px]:flex-row @[640px]:items-center @[640px]:justify-between">
+              <div>
+                <h2 class="text-2xl font-bold tracking-tight text-white">
+                  {{ category.name }}
+                </h2>
+                <p class="text-sm text-slate-400">
+                  {{ category.channels.length }} canales
+                </p>
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              @for (channel of category.channels; track trackByChannel($index, channel)) {
+                <article
+                  class="flex items-center gap-4 rounded-2xl border border-slate-800/60 bg-slate-900/70 p-4 transition-colors hover:border-primary/40 hover:bg-slate-900"
+                >
+                  <div
+                    class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-slate-950/80 p-2"
+                  >
+                    @if (channel.logo) {
+                      <img
+                        [alt]="channel.name"
+                        [src]="channel.logo"
+                        class="h-full w-full object-contain"
+                      />
+                    } @else {
+                      <mat-icon class="text-white/80">live_tv</mat-icon>
+                    }
+                  </div>
+
+                  <div class="min-w-0 flex-1">
+                    <h3 class="truncate text-sm font-bold text-white @[480px]:text-base">
+                      {{ channel.name }}
+                    </h3>
+                    <p class="mt-1 truncate text-xs text-slate-400 @[480px]:text-sm">
+                      {{ channel.country || 'Pais no disponible' }}
+                    </p>
+                  </div>
+
+                  <button
+                    mat-flat-button
+                    type="button"
+                    class="rounded-xl! bg-primary! px-3! text-xs! font-bold! text-slate-950! @[480px]:px-4! @[480px]:text-sm!"
+                    (click)="playChannel(channel)"
+                  >
+                    <span class="inline-flex items-center gap-2">
+                      <mat-icon>play_arrow</mat-icon>
+                      Play
+                    </span>
+                  </button>
+                </article>
+              }
+            </div>
+          </section>
+        } @placeholder {
+          <section class="space-y-4 rounded-3xl border border-slate-800/50 bg-slate-950/20 p-5 @[640px]:p-6">
+            <div class="space-y-2">
+              <div class="h-7 w-56 rounded bg-slate-800/70"></div>
+              <div class="h-4 w-24 rounded bg-slate-800/50"></div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              @for (item of [1, 2, 3]; track item) {
+                <div class="h-24 rounded-2xl border border-slate-800/50 bg-slate-900/50"></div>
+              }
+            </div>
+          </section>
+        }
+      }
+    </div>
+  } @else {
+    <div class="glass rounded-3xl p-8 text-center text-slate-300">
+      No hay canales disponibles para mostrar en la guia.
+    </div>
+  }
+</section>

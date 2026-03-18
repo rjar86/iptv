@@ -1,142 +1,120 @@
-<div class="grid grid-cols-12 gap-8">
+<div class="grid grid-cols-12 gap-8 lg:items-start">
   <div class="col-span-12 space-y-8 lg:col-span-9">
     <div
-      class="relative group flex aspect-video items-center justify-center overflow-hidden rounded-2xl border border-slate-800/40 bg-slate-900/40 shadow-2xl shadow-olive-950/10"
+      class="relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl border border-slate-800/40 bg-slate-900/40 shadow-2xl shadow-olive-950/10"
     >
-      <img
-        alt="Iptv Live"
-        class="w-full h-full max-h-[78%] max-w[78%] object-contain opacity-45 saturate-50"
-        data-alt="Canales gratuitos de reproduccion"
-        src="undraw_media-player_kxtm.svg"
-      />
-      <div class="absolute inset-0 hero-gradient flex flex-col justify-end p-8 @container">
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center gap-3">
-            <span
-              class="bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-widest uppercase"
-              >Live Now</span
-            >
-            <span class="bg-white/10 glass px-3 py-0.5 rounded text-xs font-medium text-slate-200"
-              >4K Ultra HD</span
-            >
-          </div>
-          <h1 class="text-4xl @[480px]:text-6xl font-black text-white tracking-tight">
-            Nightly Tech Review
-          </h1>
-          <p class="text-slate-300 text-lg max-w-2xl">
-            The latest in quantum computing and consumer electronics. Join Sarah Jenkins for
-            tonight's special coverage.
-          </p>
-          <div class="flex items-center gap-4 mt-2">
-            <button
-              class="px-8 py-6 rounded-xl font-bold transition-transform active:scale-95"
-              color="primary"
-              mat-flat-button=""
-            >
-              <mat-icon>play_arrow</mat-icon>
-              Watch Now
-            </button>
-            <button
-              class="glass hover:bg-white/10 text-white px-6 py-6 rounded-xl font-bold transition-colors"
-              mat-flat-button=""
-            >
-              Remind Me
-            </button>
-          </div>
+      @if (animeChannelsState().loading) {
+        <div class="flex h-full w-full flex-col items-center justify-center gap-4 p-8 text-center">
+          <mat-icon class="h-14! w-14! text-5xl! text-white/80">progress_activity</mat-icon>
+          <p class="text-xl font-bold text-white">Cargando canales anime...</p>
         </div>
-      </div>
-      <div
-        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-      >
+      } @else if (animeChannelsState().error) {
+        <div class="flex h-full w-full flex-col items-center justify-center gap-4 p-8 text-center">
+          <mat-icon class="h-14! w-14! text-5xl! text-red-300">error</mat-icon>
+          <p class="text-xl font-bold text-white">{{ animeChannelsState().error }}</p>
+        </div>
+      } @else if (selectedChannel(); as channel) {
+        <video
+          #player
+          autoplay
+          class="h-full w-full bg-black object-contain"
+          controls
+          playsinline
+        ></video>
+
         <div
-          class="w-20 h-20 bg-primary/80 rounded-full flex items-center justify-center text-white scale-110"
+          class="pointer-events-none absolute inset-x-0 top-0 bg-linear-to-b from-slate-950/90 via-slate-950/60 to-transparent p-6 @[480px]:p-8"
         >
-          <span class="material-symbols-outlined text-5xl fill-1">play_circle</span>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <span
+                class="rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold tracking-widest text-white uppercase"
+              >
+                Live Now
+              </span>
+              <span class="glass rounded px-3 py-0.5 text-xs font-medium text-slate-200">
+                Anime IPTV
+              </span>
+            </div>
+            <h1 class="text-4xl font-black tracking-tight text-white @[480px]:text-6xl">
+              {{ channel.name }}
+            </h1>
+            <p class="max-w-2xl text-lg text-slate-300">
+              {{ channel.group || 'Sin grupo' }} - {{ channel.country || 'Sin pais' }}
+            </p>
+            @if (playerLoading()) {
+              <p
+                class="pointer-events-auto inline-flex w-fit rounded-lg bg-black/35 px-4 py-2 text-sm text-slate-100"
+              >
+                Cargando canal...
+              </p>
+            }
+            @if (playerError()) {
+              <p
+                class="pointer-events-auto inline-flex w-fit rounded-lg bg-red-500/20 px-4 py-2 text-sm text-red-100"
+              >
+                {{ playerError() }}
+              </p>
+            }
+          </div>
         </div>
-      </div>
+      } @else {
+        <div class="flex h-full w-full flex-col items-center justify-center gap-4 p-8 text-center">
+          <mat-icon class="h-14! w-14! text-5xl! text-white/80">live_tv</mat-icon>
+          <p class="text-xl font-bold text-white">No se encontraron canales anime.</p>
+        </div>
+      }
     </div>
   </div>
-  <div class="col-span-12 lg:col-span-3 space-y-6">
+  <div class="col-span-12 space-y-6 lg:col-span-3 lg:flex lg:max-h-[calc(100vh-8rem)] lg:flex-col">
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-bold flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary">schedule</span>
-        Up Next
+      <h2 class="flex items-center gap-2 text-xl font-bold">
+        <span class="material-symbols-outlined text-primary">movie_filter</span>
+        Anime
       </h2>
-      <a class="text-xs text-primary font-bold hover:underline" href="#">Full Schedule</a>
+      <span class="text-xs font-bold text-primary">{{ animeChannels().length }} canales</span>
     </div>
-    <div class="space-y-4">
-      <!-- Schedule Item 1 -->
-      <div
-        class="glass p-3 rounded-xl border-l-4 border-l-primary hover:bg-white/5 transition-colors cursor-pointer group"
-      >
-        <div class="flex gap-4">
-          <div class="relative w-24 h-16 rounded-lg overflow-hidden shrink-0">
-            <img
-              alt="News Segment"
-              class="w-full h-full object-cover"
-              data-alt="News anchor in modern studio"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgM-xRdiPpVGA3JWueQdSiXnxGVOkou7Pbf3dvYHDFLNl0ONZ6qVNXco3ysThL4sm83IdyPMEh55uAfc369J3ihTSZCfJ2zeOv1qavFmY65hz6JsftDWKu5wHb7-x4uLKt6XNxcjz8TM0A5RC0WXD6DayaoFaxj1RCc0mgJiGt0H4kDswiaMJ82a8S-7JJqbc8trMiL8bIEg3wnUqnv8VKcm-ReqtR70fZWQ2xBuQdwz6uAlgWvwCZwIrSLFaQX5u3JNwoLf_-m2Q"
-            />
-            <div class="absolute bottom-1 right-1 bg-black/80 px-1 rounded text-[10px] font-bold">
-              20:00
+    <div class="space-y-4 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-2">
+      @for (channel of animeChannels(); track trackByChannel($index, channel)) {
+        <button
+          type="button"
+          class="glass w-full cursor-pointer rounded-xl border-l-4 p-3 text-left transition-colors hover:bg-white/5"
+          [class.border-l-primary]="selectedChannelId() === channel.id"
+          [class.border-l-transparent]="selectedChannelId() !== channel.id"
+          (click)="selectChannel(channel)"
+        >
+          <div class="flex gap-4">
+            <div
+              class="relative flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-950/50"
+            >
+              @if (channel.logo) {
+                <img
+                  [alt]="channel.name"
+                  [src]="channel.logo"
+                  class="h-full w-full object-contain"
+                />
+              } @else {
+                <mat-icon class="text-white/80">live_tv</mat-icon>
+              }
+            </div>
+            <div class="flex min-w-0 flex-col justify-center">
+              <p class="truncate text-sm font-bold transition-colors hover:text-primary">
+                {{ channel.name }}
+              </p>
+              <p class="mt-1 truncate text-xs text-slate-400">
+                {{ channel.group || 'Sin grupo' }}
+              </p>
+              <p class="truncate text-xs text-slate-500">
+                {{ channel.country || 'Sin pais' }}
+              </p>
             </div>
           </div>
-          <div class="flex flex-col justify-center min-w-0">
-            <p class="text-sm font-bold truncate group-hover:text-primary transition-colors">
-              Global News Hour
-            </p>
-            <p class="text-xs text-slate-400 mt-1">Starts in 15 mins</p>
-          </div>
+        </button>
+      } @empty {
+        <div class="glass rounded-xl p-4 text-sm text-slate-300">
+          No hay coincidencias con "anime" en este momento.
         </div>
-      </div>
-      <!-- Schedule Item 2 -->
-      <div
-        class="glass p-3 rounded-xl border-l-4 border-l-transparent hover:bg-white/5 transition-colors cursor-pointer group"
-      >
-        <div class="flex gap-4">
-          <div class="relative w-24 h-16 rounded-lg overflow-hidden shrink-0">
-            <img
-              alt="Sports Match"
-              class="w-full h-full object-cover"
-              data-alt="Football stadium lights at night"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRrrOLETw9CNP7_dJD3NVASqjWX3thK7kxyBC9SOrN7-rc0nvMtDjHqm3Um-g517eVMUYTSTAbaN6EByMmErY8k2czJlCC71qppZ-w3X7HacR6DuLFoHTZDWyY0pea0Fj882URuJgP5Jt24gaKUA4avrkCtfFV69NifB6mRaTSM9acHP_QdCZr7f4N12PdqsxbO12B1sLnbzQN0kKgffmhjmtgNMlVxD5_27GrqphfSBXh3XcOwodR7c7yraihhndCqmCqnDILR_4"
-            />
-            <div class="absolute bottom-1 right-1 bg-black/80 px-1 rounded text-[10px] font-bold">
-              21:30
-            </div>
-          </div>
-          <div class="flex flex-col justify-center min-w-0">
-            <p class="text-sm font-bold truncate group-hover:text-primary transition-colors">
-              Championship Finals
-            </p>
-            <p class="text-xs text-slate-400 mt-1">Starts in 1.5 hours</p>
-          </div>
-        </div>
-      </div>
-      <!-- Schedule Item 3 -->
-      <div
-        class="glass p-3 rounded-xl border-l-4 border-l-transparent hover:bg-white/5 transition-colors cursor-pointer group"
-      >
-        <div class="flex gap-4">
-          <div class="relative w-24 h-16 rounded-lg overflow-hidden shrink-0">
-            <img
-              alt="Music Session"
-              class="w-full h-full object-cover"
-              data-alt="Musician playing on stage with lights"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrvVDhBPj4se2_IkYzS8kKVck2fzVXnaxLLbaHNN9ySMl6JehvDoIc4UzFfZlX8L8MUjRmG0J-JecSEXLD3Hd45q-8vWYjFW0hiymB1RD9-hsaNkSoevdHhWjKRxgK5Kk6gbgfmLsinAMQNbDJv00qRBHYAOlgI5uaxTFEHvnw9Web_mPMeiPzzecL0vBC6d3_mPH0aTs-I8TlSfOeYLWDdUY-T6898_fH8WZL2S8TZgBIrPI7T71kT_5dvlmbOLsv8De43EdmzwU"
-            />
-            <div class="absolute bottom-1 right-1 bg-black/80 px-1 rounded text-[10px] font-bold">
-              23:00
-            </div>
-          </div>
-          <div class="flex flex-col justify-center min-w-0">
-            <p class="text-sm font-bold truncate group-hover:text-primary transition-colors">
-              Late Night Sessions
-            </p>
-            <p class="text-xs text-slate-400 mt-1">Live from Tokyo</p>
-          </div>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </div>
